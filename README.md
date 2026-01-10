@@ -1,7 +1,7 @@
 <h1 align="center">👋 Olá, eu sou Leandro Vinicius</h1>
 
 <p align="center">
-  Desenvolvedor Full Stack Sênior • Arquitetura de Sistemas • Produtos B2B
+  Desenvolvedor Full Stack • Arquitetura de Sistemas • Produtos B2B
 </p>
 
 <p align="center">
