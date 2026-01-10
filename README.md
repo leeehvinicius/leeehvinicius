@@ -59,8 +59,8 @@ Tenho experiência sólida em **modernização de sistemas legados**, arquitetur
   <img src="github-metrics.svg" alt="GitHub Metrics" />
 </p> -->
 <p align="center">
-  <img height="160" src="assets/stats/github-stats.svg" />
-  <img height="160" src="assets/stats/top-langs.svg" />
+  <img height="160" src="assets/stats/github-stats.svg" alt="GitHub Stats" />
+  <img height="160" src="assets/stats/top-langs.svg" alt="Top Langs" />
 </p>
 
 ---
