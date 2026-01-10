@@ -8,32 +8,60 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: readme-stats
+  cancel-in-progress: true
+
 jobs:
   cards:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Create output folder
         run: mkdir -p assets/stats
 
-      - name: Download cards (SVG)
+      - name: Download cards (SVG) with hard timeouts
+        shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
-          curl -L --compressed --retry 5 --retry-all-errors --fail \
-            "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=transparent&hide_border=true&cache_seconds=21600" \
-            -o assets/stats/github-stats.svg
+          fetch_svg () {
+            local url="$1"
+            local out="$2"
 
-          curl -L --compressed --retry 5 --retry-all-errors --fail \
-            "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=transparent&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
-            -o assets/stats/top-langs.svg
+            # baixa com timeout e retries
+            curl -L --compressed \
+              --retry 3 \
+              --retry-all-errors \
+              --connect-timeout 10 \
+              --max-time 20 \
+              --fail \
+              -H "User-Agent: github-actions" \
+              "$url" -o "$out"
 
-          # valida que é SVG mesmo
-          grep -qi "<svg" assets/stats/github-stats.svg
-          grep -qi "<svg" assets/stats/top-langs.svg
+            # valida se é SVG mesmo (e não HTML/erro)
+            if ! grep -qi "<svg" "$out"; then
+              echo "❌ Conteúdo não é SVG em: $out"
+              echo "---- começo do arquivo ----"
+              head -n 30 "$out" || true
+              echo "---------------------------"
+              exit 1
+            fi
+          }
 
-      - name: Commit changes
+          fetch_svg "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=transparent&hide_border=true&cache_seconds=21600" \
+            "assets/stats/github-stats.svg"
+
+          fetch_svg "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=transparent&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
+            "assets/stats/top-langs.svg"
+
+      - name: Commit & push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
