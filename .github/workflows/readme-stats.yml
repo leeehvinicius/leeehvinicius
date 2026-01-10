@@ -18,21 +18,35 @@ jobs:
       - name: Create output folder
         run: mkdir -p assets/stats
 
-      - name: Download GitHub stats card
+      - name: Download GitHub stats card (SVG)
         run: |
-          curl -L "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=radical&hide_border=true" \
-          -o assets/stats/github-stats.svg
+          curl -fsSL \
+            -H "Accept: image/svg+xml" \
+            -H "User-Agent: github-actions" \
+            "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=radical&hide_border=true&cache_seconds=21600" \
+            -o assets/stats/github-stats.svg
 
-      - name: Download Top languages card
+          # valida se veio SVG mesmo
+          head -n 1 assets/stats/github-stats.svg | grep -qi "<svg"
+
+      - name: Download Top languages card (SVG)
         run: |
-          curl -L "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&langs_count=8&card_width=320" \
-          -o assets/stats/top-langs.svg
+          curl -fsSL \
+            -H "Accept: image/svg+xml" \
+            -H "User-Agent: github-actions" \
+            "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
+            -o assets/stats/top-langs.svg
 
+          # valida se veio SVG mesmo
+          head -n 1 assets/stats/top-langs.svg | grep -qi "<svg"
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add assets/stats/*.svg
-          git commit -m "chore: update readme stats cards" || echo "No changes to commit"
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+
+          git commit -m "chore(readme): update GitHub stats cards"
           git push
