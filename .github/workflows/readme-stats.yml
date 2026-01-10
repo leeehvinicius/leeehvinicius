@@ -28,6 +28,7 @@ jobs:
           curl -L "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&langs_count=8&card_width=320" \
           -o assets/stats/top-langs.svg
 
+
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
