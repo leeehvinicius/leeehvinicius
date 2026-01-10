@@ -12,19 +12,17 @@ jobs:
   cards:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Create output folder
         run: mkdir -p assets/stats
 
-      # Card principal
       - name: Download GitHub stats card
         run: |
           curl -L "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=radical&hide_border=true" \
           -o assets/stats/github-stats.svg
 
-      # Top langs
       - name: Download Top languages card
         run: |
           curl -L "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&langs_count=8&card_width=320" \
