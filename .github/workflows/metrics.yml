@@ -5,6 +5,9 @@ on:
     - cron: "0 */6 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   metrics:
     runs-on: ubuntu-latest
@@ -13,6 +16,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           user: leeehvinicius
+          filename: github-metrics.svg
           template: classic
           base: header, activity, community, repositories, metadata
           languages: yes
