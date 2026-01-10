@@ -58,9 +58,10 @@ Tenho experiência sólida em **modernização de sistemas legados**, arquitetur
 <!-- <p align="center">
   <img src="github-metrics.svg" alt="GitHub Metrics" />
 </p> -->
+
 <p align="center">
-  <img height="160" src="assets/stats/github-stats.svg" alt="GitHub Stats" />
-  <img height="160" src="assets/stats/top-langs.svg" alt="Top Langs" />
+  <img height="160" src="https://raw.githubusercontent.com/leeehvinicius/leeehvinicius/main/assets/stats/github-stats.svg" alt="GitHub Stats" />
+  <img height="160" src="https://raw.githubusercontent.com/leeehvinicius/leeehvinicius/main/assets/stats/top-langs.svg" alt="Top Langs" />
 </p>
 
 ---
