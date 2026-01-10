@@ -56,28 +56,23 @@ Tenho experiência sólida em **modernização de sistemas legados**, arquitetur
 
 ## 📈 GitHub Stats
 <p align="center">
-  <img
-    height="160"
-    src="https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=radical&hide_border=true&cache_seconds=86400"
-    alt="Leandro Vinicius GitHub stats"
-  />
-  <img
-    height="160"
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&cache_seconds=86400"
-    alt="Top languages"
-  />
-</p>
-
-<p align="center">
-  <img
-    height="160"
-    src="https://streak-stats.demolab.com?user=leeehvinicius&theme=radical&hide_border=true"
-    alt="GitHub streak"
-  />
+  <img src="github-metrics.svg" alt="GitHub Metrics" />
 </p>
 
 ---
 
 ## 🤝 Contato & Redes
-- 💼 LinkedIn: https://www.linkedin.com/in/leandrovinicius-dev/
-- 📫 E-mail: leandrovinicius36@gmail.com
+<p align="center">
+  <a href="https://www.linkedin.com/in/leandrovinicius-dev/" target="_blank">
+    <img
+      src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"
+      alt="LinkedIn"
+    />
+  </a>
+  <a href="mailto:leandrovinicius36@gmail.com">
+    <img
+      src="https://img.shields.io/badge/E--mail-D14836?style=for-the-badge&logo=gmail&logoColor=white"
+      alt="E-mail"
+    />
+  </a>
+</p>
