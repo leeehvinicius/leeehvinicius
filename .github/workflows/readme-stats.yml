@@ -8,53 +8,38 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: readme-stats-cards
-  cancel-in-progress: true
-
 jobs:
   cards:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Create output folder
         run: mkdir -p assets/stats
 
-      - name: Download GitHub stats card (SVG)
+      - name: Download cards (SVG)
         run: |
-          curl -fsSL \
-            -H "Accept: image/svg+xml" \
-            -H "User-Agent: github-actions" \
-            "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=radical&hide_border=true&cache_seconds=21600" \
+          set -e
+
+          curl -L --compressed --retry 5 --retry-all-errors --fail \
+            "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=transparent&hide_border=true&cache_seconds=21600" \
             -o assets/stats/github-stats.svg
 
-          # valida se veio SVG mesmo
-          head -n 5 assets/stats/github-stats.svg
-          head -n 1 assets/stats/github-stats.svg | grep -qi "<svg"
-
-      - name: Download Top languages card (SVG)
-        run: |
-          curl -fsSL \
-            -H "Accept: image/svg+xml" \
-            -H "User-Agent: github-actions" \
-            "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=radical&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
+          curl -L --compressed --retry 5 --retry-all-errors --fail \
+            "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=transparent&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
             -o assets/stats/top-langs.svg
 
-          # valida se veio SVG mesmo
-          head -n 5 assets/stats/top-langs.svg
-          head -n 1 assets/stats/top-langs.svg | grep -qi "<svg"
+          # valida que é SVG mesmo
+          grep -qi "<svg" assets/stats/github-stats.svg
+          grep -qi "<svg" assets/stats/top-langs.svg
 
-      - name: Commit changes (if any)
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add assets/stats/*.svg
 
-          # Só commita se tiver mudança
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
