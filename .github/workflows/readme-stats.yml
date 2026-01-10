@@ -2,7 +2,7 @@ name: Readme Stats Cards
 
 on:
   schedule:
-    - cron: "20 */6 * * *"
+    - cron: "20 */12 * * *"  # 2x por dia (bem seguro)
   workflow_dispatch:
 
 permissions:
@@ -18,15 +18,12 @@ jobs:
     timeout-minutes: 2
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
+      - uses: actions/checkout@v4
 
       - name: Create output folder
         run: mkdir -p assets/stats
 
-      - name: Download cards (SVG) with hard timeouts
+      - name: Download cards (must be SVG)
         shell: bash
         run: |
           set -euo pipefail
@@ -35,37 +32,33 @@ jobs:
             local url="$1"
             local out="$2"
 
-            # baixa com timeout e retries
             curl -L --compressed \
-              --retry 3 \
-              --retry-all-errors \
-              --connect-timeout 10 \
-              --max-time 20 \
-              --fail \
+              --retry 5 --retry-all-errors \
+              --connect-timeout 10 --max-time 20 \
               -H "User-Agent: github-actions" \
+              -H "Accept: image/svg+xml" \
+              --fail \
               "$url" -o "$out"
 
-            # valida se é SVG mesmo (e não HTML/erro)
-            if ! grep -qi "<svg" "$out"; then
-              echo "❌ Conteúdo não é SVG em: $out"
-              echo "---- começo do arquivo ----"
+            # valida SVG (se vier HTML/erro, falha e não commita)
+            if ! head -n 5 "$out" | grep -qi "<svg"; then
+              echo "❌ Não veio SVG. Conteúdo recebido:"
               head -n 30 "$out" || true
-              echo "---------------------------"
               exit 1
             fi
           }
 
-          fetch_svg "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=transparent&hide_border=true&cache_seconds=21600" \
+          fetch_svg "https://github-readme-stats.vercel.app/api?username=leeehvinicius&show_icons=true&theme=transparent&hide_border=true" \
             "assets/stats/github-stats.svg"
 
-          fetch_svg "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=transparent&hide_border=true&langs_count=8&card_width=320&cache_seconds=21600" \
+          fetch_svg "https://github-readme-stats.vercel.app/api/top-langs/?username=leeehvinicius&layout=compact&theme=transparent&hide_border=true&langs_count=8&card_width=320" \
             "assets/stats/top-langs.svg"
 
       - name: Commit & push if changed
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git add assets/stats/*.svg
 
           if git diff --cached --quiet; then
