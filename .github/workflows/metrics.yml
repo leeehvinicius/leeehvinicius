@@ -16,7 +16,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           user: leeehvinicius
+
+          # 🔥 ISSO É O QUE FALTAVA
+          output_action: commit
           filename: github-metrics.svg
+
           template: classic
           base: header, activity, community, repositories, metadata
           languages: yes
