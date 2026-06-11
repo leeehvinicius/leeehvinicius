@@ -16,7 +16,7 @@
 ---
 
 ## 🚀 Sobre mim
-Sou **Desenvolvedor Full Stack Sênior**, com forte atuação em **sistemas corporativos, ERPs e plataformas B2B**.  
+Sou **Desenvolvedor Full Stack**, com forte atuação em **sistemas corporativos, ERPs e plataformas B2B**.  
 Tenho experiência sólida em **modernização de sistemas legados**, arquitetura de back-end escalável e produtos voltados para operação, financeiro e gestão.
 
 - 🧠 Especialista em **NestJS, Next.js, TypeScript e Prisma**
